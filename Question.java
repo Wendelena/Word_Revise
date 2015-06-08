@@ -1,4 +1,5 @@
-public void Question{
+public class Question{
+	public final Word obj;
 	public final String title;
 	public final String choices[];
 	public final int ans;
