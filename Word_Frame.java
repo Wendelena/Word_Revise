@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 public class Word_Frame extends JFrame{
 	public JButton import_list=new JButton("Import New Word List");
@@ -8,7 +9,10 @@ public class Word_Frame extends JFrame{
 	public JTextArea list_status=new JTextArea();
 	public JPanel list_set=new JPanel();
 	public JButton start_study=new JButton("Start Studying");
+	public Database base;
+	public int nowq;
 	public Word_Frame(){
+		base=new Database("user");
 		import_list.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){

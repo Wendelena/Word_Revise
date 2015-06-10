@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 public class Study_Panel extends JFrame{
 	public JButton dontknow=new JButton("I Don't Remember");
@@ -15,9 +16,14 @@ public class Study_Panel extends JFrame{
 	public JButton spellc=new JButton("OK");
 	public JPanel Pselect=new JPanel();
 	public JPanel Pspell=new JPanel();
-	public final Core;
+	public Core c;
+	public Database base;
 	public Question nowq;
-	public Study_Panel(){
+	public String list_name;
+	public int numq;
+	public Study_Panel(Database b,String ln,int n){
+		base=b;list_name=ln;numq=n;
+		c=new Core(b,ln,n);
 		option1.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
