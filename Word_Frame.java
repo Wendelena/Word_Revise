@@ -12,7 +12,8 @@ public class Word_Frame extends JFrame{
 	public Database base;
 	public int nowq;
 	public Word_Frame(){
-		base=new Database("user");
+		//base=new Database("user");
+		base=null;
 		import_list.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
