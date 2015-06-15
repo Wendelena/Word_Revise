@@ -1,18 +1,28 @@
 import java.sql.*;
-import java.util.*;
-import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 public class Database{
+	/*public static void main(String args[]){
+		Database db = new Database();
+		db.creatNewList("step");
+		Word a = new Word("happy", "hp", "love", "pleasant", "lalala", Calendar.getInstance().getTime(), 2);
+		db.addNewEntry("step", a);
+		db.UpdateProfic("step", "happy", 5, Calendar.getInstance().getTime());
+	}*/
 	Connection con;
 	Statement stmt;
 	PreparedStatement pstmt;
 	ResultSet rs;
 	SimpleDateFormat conv=new SimpleDateFormat("yyyy-MM-dd");
-	public Database(String name){
+	public Database(){
+		  String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";  //加载JDBC驱动
+		  String dbURL = "jdbc:sqlserver://localhost:1433; DatabaseName=test";  //连接服务器和数据库test
+		  String userName = "sa";  //默认用户名
+		  String userPwd = "899";  //密码
 		try{
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			con=DriverManager.getConnection ("jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ="+name);
-			stmt=con.createStatement();
+			Class.forName(driverName);
+			con = DriverManager.getConnection(dbURL, userName, userPwd);
+			stmt = con.createStatement();
 		}catch(Exception e){
 			System.err.println("Error occured in Constructor.");
 		}
@@ -50,14 +60,15 @@ public class Database{
 	}
 	public void UpdateProfic(String lname,String name,int newp,java.util.Date newdate){
 		try{
-			stmt.executeUpdate("UPDATE "+lname+" SET proficiency = "+newp+", nextDate = "+conv.format(newdate)+" WHERE name = "+name);
+			stmt.executeUpdate("UPDATE "+lname+" SET proficiency = "+newp+", nextDate = \'"+conv.format(newdate)+"\' WHERE name = \'"+name + "\'");
 		}catch(Exception e){
 			System.err.println("Error occured in UpdateProfic");
+			e.printStackTrace();
 		}
 	}
 	public void creatNewList(String lname){
 		try{
-			stmt.executeUpdate("CREATE TABLE [dbo].["+lname+"]([Id] INT NOT NULL PRIMARY KEY, [name] NVARCHAR(20) NOT NULL, "
+			stmt.executeUpdate("CREATE TABLE [dbo].["+lname+"]([name] NVARCHAR(20) NOT NULL PRIMARY KEY, "
 								+"[pron] NVARCHAR(20) NULL, [mean] NVARCHAR(40) NULL, [expre] NTEXT NULL, "
 								+"[synonym_] NVARCHAR(20) NULL, [nextDate] DATE NOT NULL, [proficiency] SMALLINT NOT NULL)");
 		}catch(Exception e){
@@ -67,9 +78,10 @@ public class Database{
 	public void addNewEntry(String lname,Word a){
 		try{
 			stmt.executeUpdate("INSERT INTO "+lname+" VALUES(\'"+a.name+"\', \'"+a.pron+"\', \'"+a.mean+"\', \'"+a.expre
-			+"\', \'"+a.synonym+"\', "+conv.format(a.nextDate)+", "+a.proficiency+")");
+			+"\', \'"+a.synonym+"\', \'"+conv.format(a.nextDate)+"\', "+a.proficiency+")");
 		}catch(Exception e){
 			System.err.println("Error occured in addNewEntry(Word a)");
+			e.printStackTrace();
 		}
 	}
 }
